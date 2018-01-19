@@ -1,4 +1,3 @@
-
 import turtle
 import random
 
@@ -157,18 +156,6 @@ def isValidMove(board, row, col, color):
         return False
 
 
-#This function creates a list of all valid moves for a turn
-def getValidMoves(board,color):
-    moves = []
-    row = 0
-    col = 0
-    for r in range(0,8):
-        for c in range(0, 8):
-            if isValidMove(board, r, c, color) == True:
-                moves += [(r,c)]
-    return moves
-
-
 #This function determines if there are chips of the opposite color that would
 #   flip between the potential new chip and another chip of the same color
 def willFlip(board, x, y, color):
@@ -198,6 +185,18 @@ def willFlip(board, x, y, color):
         return False
 
 
+#This function creates a list of all valid moves for a turn
+def getValidMoves(board,color):
+    moves = []
+    row = 0
+    col = 0
+    for r in range(0,8):
+        for c in range(0, 8):
+            if isValidMove(board, r, c, color) == True:
+                moves += [(r,c)]
+    return moves
+
+
 #This nonpure function displays the chips in the turtle graphics
 def putChipsDown(board, x, y, color):
     flipChips = []
@@ -225,7 +224,7 @@ def putChipsDown(board, x, y, color):
     appearColor(color)
     if len(flipChips) > 0:
         if color == "w":
-            turtle.delay(60)
+            turtle.delay(70)
         board[y][x] = color
         coordConvert(x, y)
         tokens(color)
@@ -239,9 +238,31 @@ def putChipsDown(board, x, y, color):
 
 #This function determines where the computer will play
 def selectNextPlay(board):
-    pcMove = getValidMoves(board, "w")
-    random.shuffle(pcMove)
-    return pcMove[0]
+    pcMoves = getValidMoves(board, "w")
+    betterMove = []
+    #check for corners
+    for each in pcMoves:
+        if each == (0,0) or each == (0,7) or each == (7,0) or each == (7,7):
+            betterMove += [each]
+            random.shuffle(betterMove)
+            return betterMove[0]
+    #check for sides
+    for i in range(0,8):
+        if (i, 7) in pcMoves:
+            betterMove += [(i,7)]
+        if (7, i) in pcMoves:
+            betterMove += [(7, i)]
+        if (0, i) in pcMoves:
+            betterMove += [(0, i)]
+        if (i, 0) in pcMoves:
+            betterMove += [(i, 0)]
+    if len(betterMove) > 0:
+        random.shuffle(betterMove)
+        return betterMove[0]
+    #else random move
+    else:
+        random.shuffle(pcMoves)
+        return pcMoves[0]
 
 
 #This function alternates the turns
@@ -255,7 +276,7 @@ def turns(board):
             play = turtle.textinput("Enter: x,y", "Enter the coordinates of your play: ")
             if play == "" or play == None:
                 turtle.hideturtle()
-                turtle.pencolor("coral")
+                turtle.pencolor("DarkOrange")
                 turtle.goto(50,30)
                 turtle.write("Game forfeited.", align = "center", font = ("Arial", 30, "bold"))
                 tally(board)
@@ -264,7 +285,7 @@ def turns(board):
              ("1","2","3","4","5","6","7","0") or play[2] not in ("1","2","3","4","5","6","7","0"):
                 play = turtle.textinput("Enter: x,y", "Enter the coordinates of your play in the format: x,y ")
                 if play == "" or play == None:
-                    turtle.pencolor("coral")
+                    turtle.pencolor("DarkOrange")
                     turtle.goto(50,30)
                     turtle.hideturtle()
                     turtle.write("Game forfeited.", align = "center", font = ("Arial", 30, "bold"))
@@ -277,7 +298,7 @@ def turns(board):
                 play = turtle.textinput("Invalid move.", "Enter the correct x,y coordinates of your play: ")
                 if play == "" or play == None:
                     turtle.hideturtle()
-                    turtle.pencolor("coral")
+                    turtle.pencolor("DarkOrange")
                     turtle.goto(50,30)
                     turtle.write("Game forfeited.", align = "center", font = ("Arial", 30, "bold"))
                     tally(board)
@@ -287,7 +308,7 @@ def turns(board):
                     play = turtle.textinput("Enter: x,y", "Enter the coordinates of your play in the format: x,y ")
                     if play == "" or play == None:
                         turtle.hideturtle()
-                        turtle.pencolor("coral")
+                        turtle.pencolor("DarkOrange")
                         turtle.goto(50,50)
                         turtle.write("Game forfeited.\n Click anywhere to exit.", align = "center", font = ("Arial", 30, "bold"))
                         tally(board)
@@ -329,7 +350,7 @@ def tally(board):
     turtle.goto(50, 70)
     turtle.write("White: " + str(wCount) + " Black: " + str(bCount), align = "center", font = ("Arial", 30, "normal"))
     turtle.goto(50, 50)
-    turtle.pencolor("coral")
+    turtle.pencolor("DarkOrange")
     if bCount > wCount:
         turtle.write("You win!", align = "center", font = ("Arial", 34, "bold"))
     elif wCount > bCount:
