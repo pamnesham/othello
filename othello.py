@@ -279,7 +279,8 @@ def turns(board):
                 turtle.pencolor("DarkOrange")
                 turtle.goto(50,30)
                 turtle.write("Game forfeited.", align = "center", font = ("Arial", 30, "bold"))
-                tally(board)
+                #tally(board)
+                turtle.exitonclick()
                 break
             while len(play) != 3 or play[1] != "," or play[0] not in \
              ("1","2","3","4","5","6","7","0") or play[2] not in ("1","2","3","4","5","6","7","0"):
@@ -289,7 +290,8 @@ def turns(board):
                     turtle.goto(50,30)
                     turtle.hideturtle()
                     turtle.write("Game forfeited.", align = "center", font = ("Arial", 30, "bold"))
-                    tally(board)
+                    #tally(board)
+                    turtle.exitonclick()
                     break
             xplay = int(play[0])
             yplay = int(play[2])
@@ -301,7 +303,8 @@ def turns(board):
                     turtle.pencolor("DarkOrange")
                     turtle.goto(50,30)
                     turtle.write("Game forfeited.", align = "center", font = ("Arial", 30, "bold"))
-                    tally(board)
+                    #tally(board)
+                    turtle.exitonclick()
                     break
                 while len(play) != 3 or play[1] != "," or play[0] not in \
                  ("1","2","3","4","5","6","7","0") or play[2] not in ("1","2","3","4","5","6","7","0"):
@@ -311,7 +314,7 @@ def turns(board):
                         turtle.pencolor("DarkOrange")
                         turtle.goto(50,50)
                         turtle.write("Game forfeited.\n Click anywhere to exit.", align = "center", font = ("Arial", 30, "bold"))
-                        tally(board)
+                        #tally(board)
                         turtle.exitonclick()
                         break
                 xplay = int(play[0])
